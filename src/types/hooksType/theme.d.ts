@@ -1,5 +1,5 @@
 
 
-type ThemeType = 'light' | 'dark' | 'retro' | 'synthwave'
+type ThemeType = 'light' | 'dark' | 'retro' | 'synthwave' | ''
 
 export { ThemeType }

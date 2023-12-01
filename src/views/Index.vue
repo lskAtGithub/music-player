@@ -39,6 +39,8 @@ const draw = () => {
   requestAnimationFrame(draw)
   const { width, height } = visualRef.value
   ctx.value!.clearRect(0, 0, width, height)
+  ctx.value!.fillStyle = '#1d232a'
+  ctx.value!.fillRect(0, 0, width, height)
   ctx.value!.fillStyle = '#78c5f7'
   analyser!.getByteFrequencyData(dataArray!)
   const barWidth = width / dataArray!.length
@@ -60,6 +62,9 @@ const initCvs = () => {
   visualRef.value!.width = window.innerWidth
   visualRef.value!.height = window.innerHeight - 148
   ctx.value = visualRef.value!.getContext('2d')
+  const { width, height } = visualRef.value!
+  ctx.value!.fillStyle = '#1d232a'
+  ctx.value!.fillRect(0, 0, width, height)
 }
 
 onMounted(() => {

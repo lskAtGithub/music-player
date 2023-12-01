@@ -45,11 +45,11 @@ const draw = () => {
   if (dataArray && dataArray.length && ctx.value) {
     for (let i = 0; i < dataArray.length / 2; i++) {
       const barHeight = (dataArray[i] / 255) * height
-      ctx.value.fillRect(i * barWidth + width / 2, height - barHeight, barWidth - 3, barHeight)
+      ctx.value.fillRect(i * barWidth + width / 2, height - barHeight, barWidth - 1, barHeight)
       ctx.value.fillRect(
         width / 2 - (i + 1) * barWidth,
         height - barHeight,
-        barWidth - 3,
+        barWidth - 1,
         barHeight
       )
     }

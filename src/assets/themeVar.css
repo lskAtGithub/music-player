@@ -1,0 +1,22 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --color-white: #fff;
+  --color-black: #121212;
+  /* 侧边栏深浅色 */
+  --menu-bg-color: #f2f3f5;
+  --menu-bg-color-dark: #2e2e30;
+  /* 底部控制器深浅色 */
+  --controller-bg-color: var(--color-white);
+  --controller-bg-color-dark: var(--color-black);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-menu-bg: var(--menu-bg-color);
+  --color-controller-bg: var(--controller-bg-color);
+}
+
+html.dark {
+  --color-menu-bg: var(--menu-bg-color-dark);
+  --color-controller-bg: var(--controller-bg-color-dark);
+}

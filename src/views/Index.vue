@@ -1,9 +1,5 @@
-<script setup lang="ts">
-import PlayerPage from './PlayerPage.vue'
-</script>
+<script setup lang="ts"></script>
 
-<template>
-  <PlayerPage />
-</template>
+<template>xxx</template>
 
 <style scoped lang="scss"></style>

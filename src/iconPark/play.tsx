@@ -1,20 +1,13 @@
 import { defineComponent } from 'vue'
 
-function pause(): JSX.Element {
+function play(): JSX.Element {
   return (
     <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M16 12V36"
+        d="M15 24V11.8756L25.5 17.9378L36 24L25.5 30.0622L15 36.1244V24Z"
+        fill="none"
         stroke={`var(--color-base)`}
         stroke-width="4"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M32 12V36"
-        stroke={`var(--color-base)`}
-        stroke-width="4"
-        stroke-linecap="round"
         stroke-linejoin="round"
       />
     </svg>
@@ -23,6 +16,6 @@ function pause(): JSX.Element {
 
 export default defineComponent({
   render() {
-    return pause()
+    return play()
   }
 })

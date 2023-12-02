@@ -12,11 +12,13 @@
 
 /* semantic color variables for this project */
 :root {
+  --color-base: var(--color-black);
   --color-menu-bg: var(--menu-bg-color);
   --color-controller-bg: var(--controller-bg-color);
 }
 
 html.dark {
+  --color-base: var(--color-white);
   --color-menu-bg: var(--menu-bg-color-dark);
   --color-controller-bg: var(--controller-bg-color-dark);
 }

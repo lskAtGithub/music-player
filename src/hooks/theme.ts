@@ -9,8 +9,8 @@ let useTheme: Ref<Theme> = ref('system')
  * @description 监听用户系统主题切换
  */
 function watchUserSystem() {
+  if(useTheme.value !== 'system') return
   const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
   darkModeMediaQuery.onchange = () => useChangeTheme('system')
 }
 
@@ -23,8 +23,8 @@ function useInitTheme() {
     useChangeTheme(useTheme.value)
   } else {
     useChangeTheme('system')
-    watchUserSystem()
   }
+  watchUserSystem()
 }
 
 function useChangeTheme(themeName: Theme) {

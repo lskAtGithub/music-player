@@ -9,5 +9,27 @@ import System from './system'
 import Search from './search'
 import Left from './left'
 import Right from './right'
+import User from './user'
+import Home from './home'
+import Find from './find'
+import Setting from './setting'
+import GoTop from './go-top'
 
-export { Pause, Moon, Sun, Next, Play, Prev, MusicList, System, Search, Left, Right }
+export {
+  GoTop,
+  Setting,
+  Find,
+  Home,
+  User,
+  Pause,
+  Moon,
+  Sun,
+  Next,
+  Play,
+  Prev,
+  MusicList,
+  System,
+  Search,
+  Left,
+  Right
+}

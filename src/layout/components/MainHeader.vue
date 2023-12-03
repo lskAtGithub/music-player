@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Sun, Moon, System, Search, Left, Right } from '@/iconPark/index'
 import { useTheme, useChangeTheme } from '@/hooks/theme'
-import Crumbs from '@/components/Crumbs.vue'
+import Crumbs from '@/layout/components/Crumbs.vue'
 
 const useThemeMap = {
   light: Sun,
@@ -53,10 +53,16 @@ function onCheckTheme() {
 
 <style scoped lang="scss">
 .main-header {
-  padding: 8px 15px;
+  padding: 0 15px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-base-not);
+  opacity: 0.9;
   .crumbs {
     display: flex;
     align-items: center;

@@ -11,7 +11,6 @@ const useThemeMap = {
 }
 
 let keyword = ref('')
-let activeName = ref('first')
 
 function onCheckTheme() {
   switch (useTheme.value) {
@@ -29,9 +28,6 @@ function onCheckTheme() {
       const n: never = useTheme.value
       break
   }
-}
-function onToggleTabs () {
-
 }
 </script>
 

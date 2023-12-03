@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Sun, Moon, System, Search, Left, Right } from '@/iconPark/index'
 import { useTheme, useChangeTheme } from '@/hooks/theme'
+import Crumbs from '@/components/Crumbs.vue'
 
 const useThemeMap = {
   light: Sun,
@@ -39,9 +40,7 @@ function onToggleTabs () {
     <div class="crumbs">
       <el-button :icon="Left" circle />
       <el-button :icon="Right" circle />
-      <div>
-        
-      </div>
+      <Crumbs />
     </div>
     <div class="tool-box">
       <el-input

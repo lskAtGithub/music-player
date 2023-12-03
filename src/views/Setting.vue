@@ -16,8 +16,8 @@ const fasts = {
   Space: '播放',
   PgUp: '上一曲',
   PgDn: '下一曲',
-  Up: '音量+',
-  Down: '音量-'
+  Up: '加大音量',
+  Down: '减小音量'
 }
 
 function getSetting() {

@@ -38,7 +38,7 @@ onMounted(() => {
 
 <template>
   <div class="setting-box">
-    <el-row :gutter="10">
+    <el-row>
       <el-col :span="8">
         <div class="side-title">
           <h3 class="title">主题</h3>
@@ -66,7 +66,7 @@ onMounted(() => {
       </el-col>
     </el-row>
     <el-divider />
-    <el-row :gutter="10">
+    <el-row>
       <el-col :span="8">
         <div class="side-title">
           <h3 class="title">常规</h3>
@@ -84,7 +84,7 @@ onMounted(() => {
       </el-col>
     </el-row>
     <el-divider />
-    <el-row :gutter="10">
+    <el-row>
       <el-col :span="8">
         <div class="side-title">
           <h3 class="title">快捷键</h3>

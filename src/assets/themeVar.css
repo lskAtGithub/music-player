@@ -16,6 +16,9 @@
   --kbd-bg-color-dark: #17171a;
   --kbd-bd-color: #ccc;
   --kbd-bd-color-dark: #333335;
+  
+  /* element-plus */
+  --el-menu-bg-color: var(--menu-bg-color);
 }
 
 /* semantic color variables for this project */
@@ -37,4 +40,7 @@ html.dark {
   --color-icon-bg: var(--icon-bg-color-dark);
   --color-kbd-bg: var(--kbd-bg-color-dark);
   --color-kbd-bd: var(--kbd-bd-color-dark);
+
+  /* element-plus */
+  --el-menu-bg-color: var(--menu-bg-color-dark);
 }

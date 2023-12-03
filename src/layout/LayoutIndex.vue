@@ -58,14 +58,14 @@ function onScroll(e: ScrollParam) {
 .container {
   display: flex;
   height: 100vh;
-  overflow: auto;
+  overflow-y: auto;
   .menu-box {
     width: 215px;
   }
   .main-box {
     flex: 1;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
   }
 }
 .controller-box {

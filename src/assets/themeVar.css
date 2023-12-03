@@ -8,17 +8,24 @@
   /* 底部控制器深浅色 */
   --controller-bg-color: var(--color-white);
   --controller-bg-color-dark: var(--color-black);
+  /* icon background color */
+  --icon-bg-color: #c9cdd4;
+  --icon-bg-color-dark: #505051;
 }
 
 /* semantic color variables for this project */
 :root {
   --color-base: var(--color-black);
+  --color-base-not: var(--color-white);
   --color-menu-bg: var(--menu-bg-color);
   --color-controller-bg: var(--controller-bg-color);
+  --color-icon-bg: var(--icon-bg-color);
 }
 
 html.dark {
   --color-base: var(--color-white);
+  --color-base-not: var(--color-black);
   --color-menu-bg: var(--menu-bg-color-dark);
   --color-controller-bg: var(--controller-bg-color-dark);
+  --color-icon-bg: var(--icon-bg-color-dark);
 }

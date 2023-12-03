@@ -11,6 +11,11 @@
   /* icon background color */
   --icon-bg-color: #c9cdd4;
   --icon-bg-color-dark: #505051;
+  /* kdb */
+  --kbd-bg-color: var(--color-white);
+  --kbd-bg-color-dark: #17171a;
+  --kbd-bd-color: #ccc;
+  --kbd-bd-color-dark: #333335;
 }
 
 /* semantic color variables for this project */
@@ -20,6 +25,8 @@
   --color-menu-bg: var(--menu-bg-color);
   --color-controller-bg: var(--controller-bg-color);
   --color-icon-bg: var(--icon-bg-color);
+  --color-kbd-bg: var(--kbd-bg-color);
+  --color-kbd-bd: var(--kbd-bd-color);
 }
 
 html.dark {
@@ -28,4 +35,6 @@ html.dark {
   --color-menu-bg: var(--menu-bg-color-dark);
   --color-controller-bg: var(--controller-bg-color-dark);
   --color-icon-bg: var(--icon-bg-color-dark);
+  --color-kbd-bg: var(--kbd-bg-color-dark);
+  --color-kbd-bd: var(--kbd-bd-color-dark);
 }

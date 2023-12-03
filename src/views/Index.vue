@@ -26,7 +26,7 @@ import MainHeader from '@/components/MainHeader.vue'
   height: 100vh;
   overflow: auto;
   .menu-box {
-    width: 315px;
+    width: 215px;
   }
   .main-box {
     flex: 1;

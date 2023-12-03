@@ -1,9 +1,18 @@
 @import './themeVar.css';
 
+@font-face {
+  font-family: 'HYSongYunLangHeiW';
+  src: url('/src/assets/fonts/HYSongYunLangHeiW-1.ttf') format('truetype'); /* 根据实际情况修改文件名和格式 */
+  font-weight: normal;
+  font-style: normal;
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+  font-size: 14px;
+  font-family: 'HYSongYunLangHeiW';
 }

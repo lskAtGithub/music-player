@@ -1,35 +1,41 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { routes } from '@/router'
 
-import type { CommonObject } from '@/types/Index'
-
-const route = useRoute()
-
-let currentIndex = ref(0)
-const tabs: CommonObject<string[]> = {
-  '/': ['热门', '每日推荐', '排行榜', '歌手榜']
+type routeTab = {
+  path: string
+  name: string
+  tabName: string
 }
 
-const currentTabs = computed(() => {
-  return tabs[route.path]
-})
+const route = useRoute()
+const router = useRouter()
 
-function onToggleCrumb(index: number) {
-  currentIndex.value = index
+const tabs: routeTab[] = routes[0].children
+  .filter((item) => {
+    return item.meta && item.meta.tabName
+  })
+  .map((item) => ({
+    path: item.path,
+    name: item.name,
+    tabName: item.meta!.tabName
+  }))
+
+function onToggleCrumb(item: routeTab) {
+  router.push(item.path)
 }
 </script>
 
 <template>
   <div class="crumbs-box">
     <div
-      v-for="(item, index) in currentTabs"
-      :key="item"
+      v-for="item in tabs"
+      :key="item.name"
       class="crumbs-item"
-      :class="{ 'crumbs--item-active': currentIndex === index }"
-      @click="onToggleCrumb(index)"
+      :class="{ 'crumbs--item-active': route.path === item.path }"
+      @click="onToggleCrumb(item)"
     >
-      {{ item }}
+      {{ item.tabName }}
     </div>
   </div>
 </template>

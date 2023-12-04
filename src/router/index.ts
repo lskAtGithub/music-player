@@ -2,35 +2,45 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layout/LayoutIndex.vue'
 
 import HomePage from '@/views/HomePage.vue'
+import Hot from '@/views/Hot.vue'
 import Setting from '@/views/Setting.vue'
 import Explore from '@/views/Explore.vue'
 
+export const routes = [
+  {
+    path: '/',
+    name: 'Index',
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        meta: { tabName: '每日推荐' },
+        name: 'HomePage',
+        component: HomePage
+      },
+      {
+        path: '/hot',
+        meta: { tabName: '热门' },
+        name: 'Hot',
+        component: Hot
+      },
+      {
+        path: '/setting',
+        name: 'Setting',
+        component: Setting
+      },
+      {
+        path: '/explore',
+        name: 'Explore',
+        component: Explore
+      }
+    ]
+  }
+]
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Layout,
-      children: [
-        {
-          path: '/',
-          name: 'HomePage',
-          component: HomePage
-        },
-        {
-          path: '/setting',
-          name: 'Setting',
-          component: Setting
-        },
-        {
-          path: '/explore',
-          name: 'Explore',
-          component: Explore
-        }
-      ]
-    }
-  ]
+  routes
 })
 
 export default router

@@ -30,6 +30,9 @@
   --color-icon-bg: var(--icon-bg-color);
   --color-kbd-bg: var(--kbd-bg-color);
   --color-kbd-bd: var(--kbd-bd-color);
+
+  /* font color */
+  --font-color-level-3: #3c3c3c;
 }
 
 html.dark {
@@ -40,6 +43,9 @@ html.dark {
   --color-icon-bg: var(--icon-bg-color-dark);
   --color-kbd-bg: var(--kbd-bg-color-dark);
   --color-kbd-bd: var(--kbd-bd-color-dark);
+
+  /* font color */
+  --font-color-level-3: #9b8c8c;
 
   /* element-plus */
   --el-menu-bg-color: var(--menu-bg-color-dark);

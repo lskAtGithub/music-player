@@ -29,6 +29,17 @@ export function getAllList() {
 }
 
 /**
+ * @description: 获取歌单详情
+ */
+export function getListDetail(params: { id: string }) {
+  return request({
+    url: '/playlist/detail',
+    method: 'get',
+    params
+  })
+}
+
+/**
  * @description: 获取推荐歌单
  */
 export function getPersonalized() {

@@ -14,8 +14,10 @@ import Home from './home'
 import Find from './find'
 import Setting from './setting'
 import GoTop from './go-top'
+import View from './view'
 
 export {
+  View,
   GoTop,
   Setting,
   Find,

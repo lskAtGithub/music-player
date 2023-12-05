@@ -17,8 +17,6 @@ const useRoutes = defineStore({
     watcher() {
       this.canGoForward = !!history.state.forward
       this.canGoBack = !!(this.routes.length > 1)
-      console.log(this.canGoBack)
-      
     }
   }
 })

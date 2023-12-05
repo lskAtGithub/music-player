@@ -53,7 +53,6 @@ const router = createRouter({
 
 router.afterEach((route) => {
   routeStore.addRoute(route)
-  console.log(routeStore.routes.length)
 })
 
 export default router

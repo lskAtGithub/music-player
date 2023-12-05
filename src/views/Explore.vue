@@ -2,25 +2,43 @@
 import { onMounted, ref } from 'vue'
 import { getAllList } from '@/api/list'
 import BaseImage from '@/components/BaseImage.vue'
+import { useRouter } from 'vue-router'
+import { vLoading } from 'element-plus'
 
 import type { ListItem } from '@/types/Song'
 import type { Ref } from 'vue'
 
+const router = useRouter()
+
 let list: Ref<ListItem[]> = ref([])
+let loading = ref(false)
 
 onMounted(() => {
+  loading.value = true
   getAllList().then((res) => {
-    console.log(res)
     list.value = res.data.list
+    loading.value = false
   })
 })
+
+function onToSongList(id: number) {
+  router.push({
+    path: '/songList',
+    query: { id }
+  })
+}
 </script>
 
 <template>
-  <div class="explore-box">
+  <div class="explore-box" v-loading="loading">
     <section class="list-item" v-for="item in list" :key="item.id">
       <el-card style="height: 100%" shadow="hover">
-        <BaseImage :src="item.coverImgUrl" icon-name="View" style="max-width: 125px; max-height: 125px;" />
+        <BaseImage
+          :src="item.coverImgUrl"
+          icon-name="View"
+          style="max-width: 125px; max-height: 125px"
+          @click="onToSongList(item.id)"
+        />
         <div class="list-title">{{ item.name }}</div>
         <div class="list-desc">
           <el-tooltip placement="top" :show-after="300">

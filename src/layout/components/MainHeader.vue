@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Sun, Moon, System, Search, Left, Right } from '@/iconPark/index'
 import { useTheme, useChangeTheme } from '@/hooks/theme'
 import Crumbs from '@/layout/components/Crumbs.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import useStore from '@/store'
 import { storeToRefs } from 'pinia'
 
@@ -14,7 +14,6 @@ const useThemeMap = {
 }
 
 const { canGoBack, canGoForward } = storeToRefs(useStore().routeStore)
-const route = useRoute()
 const router = useRouter()
 let keyword = ref('')
 

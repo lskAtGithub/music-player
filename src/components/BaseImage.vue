@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Play } from '@/iconPark'
+import Play from '@/iconPark/play'
+import View from '@/iconPark/view'
 
 let isShow = ref(false)
 
@@ -23,7 +24,8 @@ const props = defineProps({
   >
     <el-image class="main-img" :style="props.style" :src="props.src" :fit="props.fit" />
     <div class="mask" v-show="isShow">
-      <Play v-if="props.iconName === 'Play'" />
+      <Play v-if="props.iconName === 'Play'" v-bind:color="'#fff'" />
+      <View v-if="props.iconName === 'View'" v-bind:color="'#fff'" />
     </div>
   </div>
 </template>
@@ -34,7 +36,9 @@ const props = defineProps({
 
   .main-img {
     width: 10vw;
+    min-width: 125px;
     height: 10vw;
+    min-height: 125px;
     border-radius: 5px;
   }
   .mask {

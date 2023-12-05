@@ -2,14 +2,18 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { User, Right, Setting, Home, Find } from '@/iconPark'
+import { ElMessage } from 'element-plus'
 
 const route = useRoute()
 
+function onLogin() {
+  ElMessage.warning('该功能目前处于测试中，暂未开放，敬请期待...')
+}
 </script>
 
 <template>
   <div class="side-menu">
-    <div class="login-box">
+    <div class="login-box" @click="onLogin">
       <div class="icon">
         <User />
       </div>

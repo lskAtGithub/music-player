@@ -3,6 +3,9 @@ import { ref } from 'vue'
 import { Sun, Moon, System, Search, Left, Right } from '@/iconPark/index'
 import { useTheme, useChangeTheme } from '@/hooks/theme'
 import Crumbs from '@/layout/components/Crumbs.vue'
+import { useRoute, useRouter } from 'vue-router'
+import useStore from '@/store'
+import { storeToRefs } from 'pinia'
 
 const useThemeMap = {
   light: Sun,
@@ -10,6 +13,9 @@ const useThemeMap = {
   system: System
 }
 
+const { canGoBack, canGoForward } = storeToRefs(useStore().routeStore)
+const route = useRoute()
+const router = useRouter()
 let keyword = ref('')
 
 function onCheckTheme() {
@@ -34,8 +40,8 @@ function onCheckTheme() {
 <template>
   <div class="main-header">
     <div class="crumbs">
-      <el-button :icon="Left" circle />
-      <el-button :icon="Right" circle />
+      <el-button :icon="Left" circle :disabled="!canGoBack" @click="() => router.back()" />
+      <el-button v-show="canGoForward" :icon="Right" circle @click="() => router.forward()" />
       <Crumbs />
     </div>
     <div class="tool-box">

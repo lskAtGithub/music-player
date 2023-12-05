@@ -5,6 +5,7 @@ import HomePage from '@/views/HomePage.vue'
 import Hot from '@/views/Hot.vue'
 import Setting from '@/views/Setting.vue'
 import Explore from '@/views/Explore.vue'
+import SongList from '@/views/SongList.vue'
 
 export const routes = [
   {
@@ -33,6 +34,11 @@ export const routes = [
         path: '/explore',
         name: 'Explore',
         component: Explore
+      },
+      {
+        path: '/songList',
+        name: 'SongList',
+        component: SongList
       }
     ]
   }

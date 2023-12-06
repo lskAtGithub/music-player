@@ -4,6 +4,7 @@ import { getListDetail } from '@/api/list'
 import { useRoute } from 'vue-router'
 import { Play, AddMusic } from '@/iconPark'
 import SongTable from '@/components/SongTable.vue'
+import SongListSkeleton from '@/components/skeleton/SongListSkeleton.vue'
 import { More } from '@/iconPark'
 
 const tabColumn = [
@@ -16,6 +17,7 @@ const tabColumn = [
 const route = useRoute()
 
 let currentData = ref('')
+let loading = ref(true)
 
 const data = reactive({
   createTime: '',
@@ -39,7 +41,7 @@ function getDetail() {
       })
 
       Object.assign(data, res.data.playlist)
-      console.log(data)
+      loading.value = false
     }
   })
 }
@@ -50,48 +52,51 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="song-list-box">
-    <div class="bg-wrapper">
-      <img :src="data.coverImgUrl" alt="" />
-    </div>
-    <div class="songs-header">
-      <img class="main-img" :src="data.coverImgUrl" alt="" />
-      <div class="control-box">
-        <div class="title">{{ data.name }}</div>
-        <div class="info">
-          {{ data.creator.nickname }} · 创建于 {{ new Date(data.createTime).toLocaleDateString() }}
-        </div>
-        <div class="desc">{{ data.description }}</div>
-        <div>
-          <el-button-group size="default">
-            <el-button type="primary" :icon="Play">播放全部</el-button>
-            <el-button type="primary" :icon="AddMusic" />
-          </el-button-group>
+  <SongListSkeleton :loading="loading">
+    <div class="song-list-box">
+      <div class="bg-wrapper">
+        <img :src="data.coverImgUrl" alt="" />
+      </div>
+      <div class="songs-header">
+        <img class="main-img" :src="data.coverImgUrl" alt="" />
+        <div class="control-box">
+          <div class="title">{{ data.name }}</div>
+          <div class="info">
+            {{ data.creator.nickname }} · 创建于
+            {{ new Date(data.createTime).toLocaleDateString() }}
+          </div>
+          <div class="desc">{{ data.description }}</div>
+          <div>
+            <el-button-group size="default">
+              <el-button type="primary" :icon="Play">播放全部</el-button>
+              <el-button type="primary" :icon="AddMusic" />
+            </el-button-group>
+          </div>
         </div>
       </div>
+      <song-table :list="data.tracks" :columns="tabColumn">
+        <template #name="{ scope }">
+          <div class="song-name">
+            <img :src="scope.picUrl" alt="" />
+            <span>{{ scope.name }}</span>
+          </div>
+        </template>
+        <template #operation="{ scope }">
+          <el-dropdown trigger="click">
+            <span style="cursor: pointer"> <More /> </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>播放</el-dropdown-item>
+                <el-dropdown-item>下一首播放</el-dropdown-item>
+                <el-dropdown-item>添加到播放列表</el-dropdown-item>
+                <el-dropdown-item>复制歌名</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+      </song-table>
     </div>
-    <song-table :list="data.tracks" :columns="tabColumn">
-      <template #name="{ scope }">
-        <div class="song-name">
-          <img :src="scope.picUrl" alt="" />
-          <span>{{ scope.name }}</span>
-        </div>
-      </template>
-      <template #operation="{ scope }">
-        <el-dropdown trigger="click">
-          <span style="cursor: pointer"> <More /> </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>播放</el-dropdown-item>
-              <el-dropdown-item>下一首播放</el-dropdown-item>
-              <el-dropdown-item>添加到播放列表</el-dropdown-item>
-              <el-dropdown-item>复制歌名</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </template>
-    </song-table>
-  </div>
+  </SongListSkeleton>
 </template>
 
 <style scoped lang="scss">
@@ -109,7 +114,7 @@ onMounted(() => {
   padding: 20px;
   .songs-header {
     display: flex;
-    margin-bottom: 8px;
+    margin-bottom: 24px;
     .main-img {
       width: 200px;
       height: 200px;

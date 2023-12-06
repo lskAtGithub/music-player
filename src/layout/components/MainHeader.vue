@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { Sun, Moon, System, Search, Left, Right } from '@/iconPark/index'
 import { useTheme, useChangeTheme } from '@/hooks/theme'
 import Crumbs from '@/layout/components/Crumbs.vue'
+import Fullscreen from './Fullscreen.vue'
 import { useRouter } from 'vue-router'
 import useStore from '@/store'
 import { storeToRefs } from 'pinia'
@@ -51,6 +52,7 @@ function onCheckTheme() {
         clearable
         :prefix-icon="Search"
       />
+      <fullscreen />
       <el-button :icon="useThemeMap[useTheme]" circle @click="onCheckTheme" />
     </div>
   </div>

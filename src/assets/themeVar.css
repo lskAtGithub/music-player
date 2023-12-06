@@ -6,8 +6,10 @@
   --menu-bg-color: #f2f3f5;
   --menu-bg-color-dark: #2e2e30;
   /* 底部控制器深浅色 */
-  --controller-bg-color: var(--color-white);
-  --controller-bg-color-dark: var(--color-black);
+  --controller-bg-color: #fdfdfd;
+  --controller-bg-color-dark: #17171a;
+  --controller-shadow-color: #ccc;
+  --controller-shadow-color-dark: #2e2e30;
   /* icon background color */
   --icon-bg-color: #c9cdd4;
   --icon-bg-color-dark: #505051;
@@ -25,6 +27,7 @@
   --color-base-not: var(--color-white);
   --color-menu-bg: var(--menu-bg-color);
   --color-controller-bg: var(--controller-bg-color);
+  --color-controller-shadow: var(--controller-shadow-color);
   --color-icon-bg: var(--icon-bg-color);
   --color-kbd-bg: var(--kbd-bg-color);
   --color-kbd-bd: var(--kbd-bd-color);
@@ -38,6 +41,7 @@ html.dark {
   --color-base-not: var(--color-black);
   --color-menu-bg: var(--menu-bg-color-dark);
   --color-controller-bg: var(--controller-bg-color-dark);
+  --color-controller-shadow: var(--controller-shadow-color-dark);
   --color-icon-bg: var(--icon-bg-color-dark);
   --color-kbd-bg: var(--kbd-bg-color-dark);
   --color-kbd-bd: var(--kbd-bd-color-dark);

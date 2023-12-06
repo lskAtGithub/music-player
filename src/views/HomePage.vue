@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { getPersonalized, getPersonalizedNewSong, getSongUrl } from '@/api/list'
+import useStore from '@/store'
 import BaseChunk from '@/components/BaseChunk.vue'
 import BaseImage from '@/components/BaseImage.vue'
 import HomeSkeleton from '@/components/skeleton/HomeSkeleton.vue'
@@ -13,14 +14,23 @@ import { useRouter } from 'vue-router'
 type Response = { code: number; result: Personalized[] }
 
 const router = useRouter()
+const { songStore } = useStore()
 let isLoading = ref(false)
 let songList: Ref<Personalized[]> = ref([])
 let newSongs: Ref<NewSongs[]> = ref([])
 
-function onPlaySong(id: number) {
-  getSongUrl({ id }).then((res) => {
-    console.log(res)
-  })
+function onPlaySong(item: NewSongs) {
+  const song = {
+    id: item.id,
+    name: item.name,
+    picUrl: item.picUrl,
+    singer: item.song.artists[0].name,
+    time: 0,
+    size: 0,
+    url: ''
+  }
+  songStore.addSongs(song, 0)
+  songStore.playSong(song, getSongUrl({ id: item.id }))
 }
 
 function onToSongList(id: number) {
@@ -67,7 +77,7 @@ onMounted(() => {
             v-for="item in newSongs"
             class="content-item"
             :key="item.id"
-            @click="onPlaySong(item.id)"
+            @click="onPlaySong(item)"
           >
             <BaseImage :src="item.picUrl" icon-name="Play" />
             <div class="title">{{ item.name }}</div>

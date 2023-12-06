@@ -1,17 +1,12 @@
 // 歌曲详情
 export interface SongDetail {
-  br: number
-  canExtend: boolean
-  code: number
-  encodeType: string
-  fee: number
   id: number
-  level: string
-  md5: string
-  type: string
   time: number
   size: number
   url: string
+  name: string
+  picUrl: string
+  singer: string
 }
 
 // 歌单详情

@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/music-player',
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {

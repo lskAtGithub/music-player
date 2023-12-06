@@ -14,7 +14,7 @@ const props = defineProps({
           <div class="content-box">
             <div v-for="item in 100" class="content-item" :key="item">
               <el-skeleton-item variant="image" style="width: 10vw; height: 10vw" />
-              <el-skeleton-item variant="p" style="width: 100% height: 39px" />
+              <el-skeleton-item variant="p" style="width: 100%; height: 39px" />
               <el-skeleton-item variant="p" style="width: 100%" />
               <el-skeleton-item variant="p" style="width: 100%" />
             </div>

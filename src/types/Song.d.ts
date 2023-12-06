@@ -1,3 +1,4 @@
+// 歌曲详情
 export interface SongDetail {
   br: number
   canExtend: boolean
@@ -13,6 +14,7 @@ export interface SongDetail {
   url: string
 }
 
+// 歌单详情
 export interface ListItem {
   ToplistType: string
   adType: number
@@ -26,4 +28,19 @@ export interface ListItem {
   userId: number
   coverImgUrl: string
   tracks: { first: string; second: string }[]
+}
+
+// 榜单详情
+type Creator = {
+  avatarUrl: string
+  backgroundUrl: string
+  nickname: string
+}
+export interface ListDetail {
+  createTime: string
+  name: string
+  id: number
+  tags: string[]
+  playlist: [],
+  creator: Creator
 }

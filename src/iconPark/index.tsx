@@ -18,8 +18,12 @@ import View from './view'
 import Full from './full'
 import Lessen from './lessen'
 import Expand from './expand'
+import AddMusic from './addMusic'
+import More from './more'
 
 export {
+  More,
+  AddMusic,
   Full,
   Lessen,
   Expand,

@@ -21,7 +21,7 @@ function onGoTop() {
 .go-top-box {
   position: fixed;
   right: 18px;
-  bottom: 30px;
+  bottom: 130px;
   z-index: 99999999999999;
 }
 </style>

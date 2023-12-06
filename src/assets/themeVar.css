@@ -12,8 +12,6 @@
   --icon-bg-color: #c9cdd4;
   --icon-bg-color-dark: #505051;
   /* kdb */
-  --kbd-bg-color: var(--color-white);
-  --kbd-bg-color-dark: #17171a;
   --kbd-bd-color: #ccc;
   --kbd-bd-color-dark: #333335;
   

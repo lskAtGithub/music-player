@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { getAllList } from '@/api/list'
 import BaseImage from '@/components/BaseImage.vue'
 import { useRouter } from 'vue-router'
-import { vLoading } from 'element-plus'
+import ExploreSkeleton from '@/components/skeleton/ExploreSkeleton.vue'
 
 import type { ListItem } from '@/types/Song'
 import type { Ref } from 'vue'
@@ -30,29 +30,31 @@ function onToSongList(id: number) {
 </script>
 
 <template>
-  <div class="explore-box" v-loading="loading">
-    <section class="list-item" v-for="item in list" :key="item.id">
-      <el-card style="height: 100%" shadow="hover">
-        <BaseImage
-          :src="item.coverImgUrl"
-          icon-name="View"
-          style="max-width: 125px; max-height: 125px"
-          @click="onToSongList(item.id)"
-        />
-        <div class="list-title">{{ item.name }}</div>
-        <div class="list-desc">
-          <el-tooltip placement="top" :show-after="300">
-            <template #content>
-              <div style="max-width: 400px">
-                {{ item.description }}
-              </div>
-            </template>
-            {{ item.description }}
-          </el-tooltip>
-        </div>
-      </el-card>
-    </section>
-  </div>
+  <explore-skeleton :loading="loading">
+    <div class="explore-box">
+      <section class="list-item" v-for="item in list" :key="item.id">
+        <el-card style="height: 100%" shadow="hover">
+          <BaseImage
+            :src="item.coverImgUrl"
+            icon-name="View"
+            style="max-width: 125px; max-height: 125px"
+            @click="onToSongList(item.id)"
+          />
+          <div class="list-title">{{ item.name }}</div>
+          <div class="list-desc">
+            <el-tooltip placement="top" :show-after="300">
+              <template #content>
+                <div style="max-width: 400px">
+                  {{ item.description }}
+                </div>
+              </template>
+              {{ item.description }}
+            </el-tooltip>
+          </div>
+        </el-card>
+      </section>
+    </div>
+  </explore-skeleton>
 </template>
 
 <style scoped lang="scss">

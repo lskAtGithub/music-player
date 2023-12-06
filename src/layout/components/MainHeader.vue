@@ -81,4 +81,7 @@ function onCheckTheme() {
     gap: 8px;
   }
 }
+:deep(.el-button+.el-button) {
+  margin-left: 0;
+}
 </style>

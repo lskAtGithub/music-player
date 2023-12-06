@@ -47,6 +47,7 @@ function onLogin() {
     margin: 30px 0 20px;
     display: flex;
     align-items: center;
+    user-select: none;
     padding: 0 12px;
     .icon {
       padding: 8px 10px;

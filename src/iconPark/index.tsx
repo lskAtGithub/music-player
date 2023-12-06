@@ -15,8 +15,14 @@ import Find from './find'
 import Setting from './setting'
 import GoTop from './go-top'
 import View from './view'
+import Full from './full'
+import Lessen from './lessen'
+import Expand from './expand'
 
 export {
+  Full,
+  Lessen,
+  Expand,
   View,
   GoTop,
   Setting,

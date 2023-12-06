@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { routes } from '@/router'
 
@@ -21,13 +22,18 @@ const tabs: routeTab[] = routes[0].children
     tabName: item.meta!.tabName
   }))
 
+const hasCrumbs = computed(() => {
+  const tabPaths = tabs.map((item) => item.path)
+  return tabPaths.indexOf(route.path) !== -1
+})
+
 function onToggleCrumb(item: routeTab) {
   router.push(item.path)
 }
 </script>
 
 <template>
-  <div class="crumbs-box">
+  <div class="crumbs-box" v-show="hasCrumbs">
     <div
       v-for="item in tabs"
       :key="item.name"

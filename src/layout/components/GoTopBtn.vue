@@ -22,5 +22,6 @@ function onGoTop() {
   position: fixed;
   right: 18px;
   bottom: 30px;
+  z-index: 99999999999999;
 }
 </style>

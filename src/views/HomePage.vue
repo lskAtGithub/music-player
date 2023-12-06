@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { getPersonalized, getPersonalizedNewSong, getSongUrl, testApi } from '@/api/list'
-import { vLoading } from 'element-plus'
+import { getPersonalized, getPersonalizedNewSong, getSongUrl } from '@/api/list'
 import BaseChunk from '@/components/BaseChunk.vue'
 import BaseImage from '@/components/BaseImage.vue'
+import HomeSkeleton from '@/components/skeleton/HomeSkeleton.vue'
 
 import type { Personalized, NewSongs } from '@/types/Home'
 import type { AxiosResponse } from 'axios'
 import type { Ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 type Response = { code: number; result: Personalized[] }
 
+const router = useRouter()
 let isLoading = ref(false)
 let songList: Ref<Personalized[]> = ref([])
 let newSongs: Ref<NewSongs[]> = ref([])
@@ -19,6 +21,10 @@ function onPlaySong(id: number) {
   getSongUrl({ id }).then((res) => {
     console.log(res)
   })
+}
+
+function onToSongList(id: number) {
+  router.push({ path: '/songList', query: { id } })
 }
 
 onMounted(() => {
@@ -31,43 +37,46 @@ onMounted(() => {
   getPersonalizedNewSong({ limit: 30 }).then((res) => {
     newSongs.value = res.data.result
   })
-
-  testApi({}).then((res) => {
-    console.log(res)
-  })
 })
 </script>
 
 <template>
-  <div class="home-box" v-loading="isLoading">
-    <base-chunk title="歌单" class="chunk">
-      <div class="content-box">
-        <div v-for="item in songList" class="content-item" :key="item.id">
-          <BaseImage :src="item.picUrl" icon-name="View" />
-          <div class="title">{{ item.name }}</div>
-          <div class="desc">播放次数： {{ item.playCount }}</div>
-          <div class="desc">
-            更新时间：{{ new Date(item.trackNumberUpdateTime).toLocaleDateString() }}
+  <HomeSkeleton :loading="isLoading">
+    <div class="home-box">
+      <base-chunk title="歌单" class="chunk">
+        <div class="content-box">
+          <div
+            v-for="item in songList"
+            class="content-item"
+            :key="item.id"
+            @click="onToSongList(item.id)"
+          >
+            <BaseImage :src="item.picUrl" icon-name="View" />
+            <div class="title">{{ item.name }}</div>
+            <div class="desc">播放次数： {{ item.playCount }}</div>
+            <div class="desc">
+              更新时间：{{ new Date(item.trackNumberUpdateTime).toLocaleDateString() }}
+            </div>
           </div>
         </div>
-      </div>
-    </base-chunk>
+      </base-chunk>
 
-    <base-chunk title="新歌推荐" class="chunk">
-      <div class="content-box">
-        <div
-          v-for="item in newSongs"
-          class="content-item"
-          :key="item.id"
-          @click="onPlaySong(item.id)"
-        >
-          <BaseImage :src="item.picUrl" icon-name="Play" />
-          <div class="title">{{ item.name }}</div>
-          <div class="desc">歌手： {{ item.song.artists[0].name }}</div>
+      <base-chunk title="新歌推荐" class="chunk">
+        <div class="content-box">
+          <div
+            v-for="item in newSongs"
+            class="content-item"
+            :key="item.id"
+            @click="onPlaySong(item.id)"
+          >
+            <BaseImage :src="item.picUrl" icon-name="Play" />
+            <div class="title">{{ item.name }}</div>
+            <div class="desc">歌手： {{ item.song.artists[0].name }}</div>
+          </div>
         </div>
-      </div>
-    </base-chunk>
-  </div>
+      </base-chunk>
+    </div>
+  </HomeSkeleton>
 </template>
 
 <style scoped lang="scss">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { getPersonalized, getPersonalizedNewSong, getSongUrl } from '@/api/list'
+import { onMounted, ref, inject } from 'vue'
+import { getPersonalized, getPersonalizedNewSong } from '@/api/list'
 import useStore from '@/store'
 import BaseChunk from '@/components/BaseChunk.vue'
 import BaseImage from '@/components/BaseImage.vue'
@@ -13,13 +13,14 @@ import { useRouter } from 'vue-router'
 
 type Response = { code: number; result: Personalized[] }
 
+const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
 const router = useRouter()
 const { songStore } = useStore()
 let isLoading = ref(false)
 let songList: Ref<Personalized[]> = ref([])
 let newSongs: Ref<NewSongs[]> = ref([])
 
-function onPlaySong(item: NewSongs) {
+async function onPlaySong(item: NewSongs) {
   const song = {
     id: item.id,
     name: item.name,
@@ -30,7 +31,10 @@ function onPlaySong(item: NewSongs) {
     url: ''
   }
   songStore.addSongs(song, 0)
-  songStore.playSong(song, getSongUrl({ id: item.id }))
+  audioRef.value.pause()
+  audioRef.value.currentTime = 0
+  await songStore.playSong(song)
+  audioRef.value.play()
 }
 
 function onToSongList(id: number) {

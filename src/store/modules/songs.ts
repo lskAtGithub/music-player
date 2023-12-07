@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getSongUrl } from '@/api/list'
 
 import type { SongDetail } from '@/types/Song'
 
@@ -38,23 +39,20 @@ const useSongs = defineStore({
       this.songs = arr
       localStorage.setItem('music-player-songs', JSON.stringify(this.songs))
     },
-    playSong(song?: SongDetail, promise?: Promise<any>) {
-      if (song && promise) {
+    async playSong(song?: SongDetail) {
+      if (song) {
         this.playStatus = false
         this.currentSong = song
-        promise.then((res) => {
-          this.playStatus = true
-          const idx = this.songs.findIndex((item) => item.id === song.id)
-          this.songs[idx].url = res.data.data[0].url
-          this.songs[idx].time = res.data.data[0].time
-          this.songs[idx].size = res.data.data[0].size
-          this.currentSong = this.songs[0]
-          localStorage.setItem('music-player-songs', JSON.stringify(this.songs))
-        })
-      } else if (!song && !promise) {
+        const res = await getSongUrl({ id: song.id })
         this.playStatus = true
+        const idx = this.songs.findIndex((item) => item.id === song.id)
+        this.songs[idx].url = res.data.data[0].url
+        this.songs[idx].time = res.data.data[0].time
+        this.songs[idx].size = res.data.data[0].size
+        this.currentSong = this.songs[0]
+        localStorage.setItem('music-player-songs', JSON.stringify(this.songs))
       } else {
-        throw new Error('参数错误')
+        this.playStatus = true
       }
     },
     pauseSong() {

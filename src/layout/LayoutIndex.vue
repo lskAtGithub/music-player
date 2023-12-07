@@ -1,17 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, provide, computed } from 'vue'
 import { RouterView } from 'vue-router'
 import SideMenu from '@/layout/components/SideMenu.vue'
 import BottomController from '@/layout/components/BottomController.vue'
 import MainHeader from '@/layout/components/MainHeader.vue'
 import GoTopBtn from '@/layout/components/GoTopBtn.vue'
+import useStore from '@/store'
+import { storeToRefs } from 'pinia'
+
+import type { Ref } from 'vue'
 
 type ScrollParam = { scrollLeft: number; scrollTop: number }
 
+
+
 let currentScrollTop = 0
 
+const { songStore } = useStore()
+const { currentSong } = storeToRefs(songStore)
 let scrollbarRef = ref()
+let audioRef: Ref<HTMLAudioElement | null> = ref(null)
 let isShow = ref(false)
+
+const audioSrc = computed(() => {
+  return currentSong.value.url || ''
+})
 
 function onGoTop() {
   isShow.value = false
@@ -36,6 +49,8 @@ function onScroll(e: ScrollParam) {
     isShow.value = false
   }
 }
+
+provide('audioRef', audioRef)
 </script>
 
 <template>
@@ -51,6 +66,7 @@ function onScroll(e: ScrollParam) {
   <div class="controller-box">
     <BottomController />
   </div>
+  <audio ref="audioRef" :src="audioSrc"></audio>
   <GoTopBtn :show="isShow" @goTop="onGoTop" />
 </template>
 

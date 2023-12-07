@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, inject } from 'vue'
 import useStore from '@/store'
 import { storeToRefs } from 'pinia'
 import { vLoading } from 'element-plus'
@@ -7,6 +7,8 @@ import BaseImage from '@/components/BaseImage.vue'
 import { Left, Right, Play, Pause, MusicList } from '@/iconPark'
 
 import type { Ref } from 'vue'
+
+const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
 
 const imageStyle = {
   width: '64px',
@@ -19,20 +21,29 @@ const imageStyle = {
 const { songs, currentSong, playStatus, isInit } = storeToRefs(useStore().songStore)
 const { initSongs, pauseSong, playSong } = useStore().songStore
 
-let audioRef: Ref<HTMLAudioElement | null> = ref(null)
 let drawerVisible = ref(false)
+let isLoading = ref(false)
 
 const isReady = computed(() => {
-  return !currentSong.value.url
+  return !currentSong.value.url && !isLoading
 })
 
 function onPopupMusicList() {
   drawerVisible.value = true
 }
 
-function onPlay() {
-  audioRef.value!.play()
-  playSong()
+async function onPlay() {
+  if (audioRef.value && !audioRef.value.src && currentSong.value.url) {
+    isLoading.value = true
+    currentSong.value.url = ''
+    await playSong(currentSong.value)
+    audioRef.value.src = currentSong.value.url
+    isLoading.value = false
+    audioRef.value!.play()
+  } else {
+    playSong()
+    audioRef.value!.play()
+  }
 }
 
 function onPause() {
@@ -40,16 +51,6 @@ function onPause() {
   pauseSong()
 }
 
-watch(
-  () => [currentSong.value.url],
-  () => {
-    if (isInit.value && currentSong.value.url) {
-      audioRef.value!.src = currentSong.value.url
-      audioRef.value!.play()
-    }
-  },
-  { deep: true, immediate: false }
-)
 onMounted(() => {
   initSongs()
 })
@@ -79,7 +80,6 @@ onMounted(() => {
       <MusicList class="pointer" @click="onPopupMusicList" />
     </div>
   </div>
-  <audio ref="audioRef"></audio>
 </template>
 
 <style scoped lang="scss">

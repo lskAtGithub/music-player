@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, inject, type Ref } from 'vue'
 import { getListDetail } from '@/api/list'
 import { useRoute } from 'vue-router'
 import { Play, AddMusic } from '@/iconPark'
 import SongTable from '@/components/SongTable.vue'
 import SongListSkeleton from '@/components/skeleton/SongListSkeleton.vue'
 import { More } from '@/iconPark'
+import useStore from '@/store'
+import { ElMessage } from 'element-plus'
+
+import type { SongDetail } from '@/types/Song'
+import { storeToRefs } from 'pinia'
 
 const tabColumn = [
   { label: '音乐标题', slotName: 'name' },
@@ -15,8 +20,10 @@ const tabColumn = [
 ]
 
 const route = useRoute()
+const { playSong, addSongs, pauseSong } = useStore().songStore
+const { currentSong } = storeToRefs(useStore().songStore)
+const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
 
-let currentData = ref('')
 let loading = ref(true)
 
 const data = reactive({
@@ -44,6 +51,26 @@ function getDetail() {
       loading.value = false
     }
   })
+}
+async function onDbClick(row: any) {
+  const song: SongDetail = {
+    id: row.id,
+    picUrl: row.picUrl,
+    name: row.name,
+    singer: row.ar[0].name,
+    time: 0,
+    size: 0,
+    url: ''
+  }
+  addSongs(song, 0)
+  await playSong(song)
+  if (currentSong.value.url) {
+    audioRef.value.play()
+  } else {
+    ElMessage.error('抱歉，暂无此音频的播放地址')
+    pauseSong()
+    audioRef.value.pause()
+  }
 }
 
 onMounted(() => {
@@ -74,7 +101,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <song-table :list="data.tracks" :columns="tabColumn">
+      <song-table :list="data.tracks" :columns="tabColumn" @row-dblclick="onDbClick">
         <template #name="{ scope }">
           <div class="song-name">
             <img :src="scope.picUrl" alt="" />

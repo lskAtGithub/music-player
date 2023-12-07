@@ -31,6 +31,7 @@ async function onPlaySong(item: NewSongs) {
     url: ''
   }
   songStore.addSongs(song, 0)
+  songStore.pauseSong()
   audioRef.value.pause()
   audioRef.value.currentTime = 0
   await songStore.playSong(song)

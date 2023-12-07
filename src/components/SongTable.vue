@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from 'vue'
+
 import type { PropType } from 'vue'
 
 type FixedType = 'left' | 'right' | true
@@ -30,7 +32,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <el-table :data="props.list" style="width: 100%">
+  <el-table :data="props.list" style="width: 100%" v-on="useAttrs()">
     <el-table-column v-for="item in props.columns" v-bind="item">
       <template v-slot="scope">
         <slot v-if="item.slotName" :name="item.slotName" :scope="scope.row" />

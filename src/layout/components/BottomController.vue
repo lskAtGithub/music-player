@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia'
 import { vLoading } from 'element-plus'
 import BaseImage from '@/components/BaseImage.vue'
 import { Left, Right, Play, Pause, MusicList } from '@/iconPark'
+import { ElMessage } from 'element-plus'
 
 import type { Ref } from 'vue'
 
@@ -41,8 +42,14 @@ async function onPlay() {
     isLoading.value = false
     audioRef.value!.play()
   } else {
-    playSong()
-    audioRef.value!.play()
+    if (!currentSong.value.url) {
+      ElMessage.error('抱歉，暂无此音频的播放地址')
+      pauseSong()
+      audioRef.value.pause()
+    } else {
+      playSong()
+      audioRef.value!.play()
+    }
   }
 }
 

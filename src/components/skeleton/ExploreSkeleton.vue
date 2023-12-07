@@ -10,7 +10,7 @@ const props = defineProps({
       <div class="explore-box">
         <section class="list-item" v-for="item in 30" :key="item">
           <el-card style="height: 100%" shadow="hover">
-            <el-skeleton-item variant="image" style="width: 10vw; height: 10vw" />
+            <el-skeleton-item variant="image" style="width: 10vw; height: 10vw; max-width: 125px; max-height: 125px;" />
             <el-skeleton-item variant="p" style="width: 100% height: 39px; margin-top: 8px" />
             <el-skeleton-item variant="p" style="width: 100%" />
           </el-card>

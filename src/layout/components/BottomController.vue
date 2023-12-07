@@ -6,6 +6,7 @@ import { vLoading } from 'element-plus'
 import BaseImage from '@/components/BaseImage.vue'
 import { Left, Right, Play, Pause, MusicList } from '@/iconPark'
 import { ElMessage } from 'element-plus'
+import SongList from './SongList.vue'
 
 import type { Ref } from 'vue'
 
@@ -65,7 +66,7 @@ onMounted(() => {
 
 <template>
   <el-drawer v-model="drawerVisible" title="播放列表" direction="rtl">
-    <span>Hi, there!</span>
+    <song-list />
   </el-drawer>
   <div class="bottom-controller-box" :class="{ show: songs.length > 0 }">
     <div class="song-info-box">

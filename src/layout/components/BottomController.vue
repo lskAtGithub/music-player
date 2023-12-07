@@ -23,6 +23,7 @@ let audioRef: Ref<HTMLAudioElement | null> = ref(null)
 let drawerVisible = ref(false)
 
 const isReady = computed(() => {
+  console.log(currentSong.value.url)
   return !currentSong.value.url
 })
 

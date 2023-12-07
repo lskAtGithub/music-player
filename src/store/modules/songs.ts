@@ -23,6 +23,10 @@ const useSongs = defineStore({
       }, 0)
     },
     addSongs(song: SongDetail, index: 'default' | number = 'default') {
+      const idx = this.songs.findIndex((item) => item.id === song.id)
+      if (idx !== -1) {
+        this.songs.splice(idx, 1)
+      }
       if (index === 'default') {
         this.songs.push(song)
       } else {
@@ -38,11 +42,6 @@ const useSongs = defineStore({
       if (song && promise) {
         this.playStatus = false
         this.currentSong = song
-        const idx = this.songs.findIndex((item) => item.id === song.id)
-        if (idx !== -1) {
-          this.songs.splice(idx, 1)
-          this.songs.unshift(song)
-        }
         promise.then((res) => {
           this.playStatus = true
           const idx = this.songs.findIndex((item) => item.id === song.id)
@@ -50,6 +49,7 @@ const useSongs = defineStore({
           this.songs[idx].time = res.data.data[0].time
           this.songs[idx].size = res.data.data[0].size
           this.currentSong = this.songs[0]
+          localStorage.setItem('music-player-songs', JSON.stringify(this.songs))
         })
       } else if (!song && !promise) {
         this.playStatus = true

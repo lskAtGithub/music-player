@@ -5,9 +5,9 @@ import { useRoute } from 'vue-router'
 import { Play, AddMusic } from '@/iconPark'
 import SongTable from '@/components/SongTable.vue'
 import SongListSkeleton from '@/components/skeleton/SongListSkeleton.vue'
-import { More } from '@/iconPark'
 import useStore from '@/store'
 import { ElMessage } from 'element-plus'
+import Operation from '@/components/Operation.vue'
 
 import type { SongDetail } from '@/types/Song'
 import { storeToRefs } from 'pinia'
@@ -109,17 +109,17 @@ onMounted(() => {
           </div>
         </template>
         <template #operation="{ scope }">
-          <el-dropdown trigger="click">
-            <span style="cursor: pointer"> <More /> </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>播放</el-dropdown-item>
-                <el-dropdown-item>下一首播放</el-dropdown-item>
-                <el-dropdown-item>添加到播放列表</el-dropdown-item>
-                <el-dropdown-item>复制歌名</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <operation
+            :row="{
+              id: scope.id,
+              name: scope.name,
+              picUrl: scope.picUrl,
+              singer: scope.ar[0].name,
+              time: 0,
+              size: 0,
+              url: ''
+            }"
+          />
         </template>
       </song-table>
     </div>

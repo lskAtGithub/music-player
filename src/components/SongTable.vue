@@ -35,7 +35,7 @@ const props = defineProps({
   <el-table :data="props.list" style="width: 100%" v-on="useAttrs()">
     <el-table-column v-for="item in props.columns" v-bind="item">
       <template v-slot="scope">
-        <slot v-if="item.slotName" :name="item.slotName" :scope="scope.row" />
+        <slot v-if="item.slotName" :name="item.slotName" :scope="scope.row" :index="scope.$index" />
       </template>
     </el-table-column>
   </el-table>

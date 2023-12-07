@@ -6,9 +6,11 @@ import { vLoading } from 'element-plus'
 import BaseImage from '@/components/BaseImage.vue'
 import { Left, Right, Play, Pause, MusicList } from '@/iconPark'
 import { ElMessage } from 'element-plus'
-import SongList from './SongList.vue'
+import SongTable from '@/components/SongTable.vue'
+import Operation from '@/components/Operation.vue'
 
 import type { Ref } from 'vue'
+import type { SongDetail } from '@/types/Song'
 
 const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
 
@@ -19,8 +21,12 @@ const imageStyle = {
   minHeight: '64px',
   boxShadow: '0 0 5px 0 var(--color-controller-shadow)'
 }
+const columns = [
+  { label: '歌曲', slotName: 'info' },
+  { label: ' ', slotName: 'operation', width: 60 }
+]
 
-const { songs, currentSong, playStatus, isInit } = storeToRefs(useStore().songStore)
+const { songs, currentSong, playStatus } = storeToRefs(useStore().songStore)
 const { initSongs, pauseSong, playSong } = useStore().songStore
 
 let drawerVisible = ref(false)
@@ -29,6 +35,18 @@ let isLoading = ref(false)
 const isReady = computed(() => {
   return !currentSong.value.url && !isLoading
 })
+
+function isCurrentSong(index: number): boolean {
+  let idx = null
+  for (let index = 0; index < songs.value.length; index++) {
+    const element = songs.value[index]
+    if (element.id === currentSong.value.id) {
+      idx = index
+      break
+    }
+  }
+  return idx === index
+}
 
 function onPopupMusicList() {
   drawerVisible.value = true
@@ -43,7 +61,10 @@ async function onPlay() {
     isLoading.value = false
     audioRef.value!.play()
   } else {
-    if (!currentSong.value.url) {
+    if (currentSong.value.id && !currentSong.value.url) {
+      await playSong(currentSong.value)
+      audioRef.value.play()
+    } else if (!currentSong.value.url) {
       ElMessage.error('抱歉，暂无此音频的播放地址')
       pauseSong()
       audioRef.value.pause()
@@ -59,14 +80,35 @@ function onPause() {
   pauseSong()
 }
 
+async function onDbClick(row: SongDetail) {
+  await playSong(row)
+  if (currentSong.value.url) {
+    audioRef.value.play()
+  } else {
+    ElMessage.error('抱歉，暂无此音频的播放地址')
+    pauseSong()
+    audioRef.value.pause()
+  }
+}
+
 onMounted(() => {
   initSongs()
 })
 </script>
 
 <template>
-  <el-drawer v-model="drawerVisible" title="播放列表" direction="rtl">
-    <song-list />
+  <el-drawer size="40%" v-model="drawerVisible" title="播放列表" direction="rtl">
+    <song-table :columns="columns" :data="songs" @row-dblclick="onDbClick">
+      <template #info="{ scope, index }">
+        <div class="info-song">
+          <img :src="scope.picUrl" alt="" />
+          <span :class="{ active: isCurrentSong(index) }">{{ scope.name }}</span>
+        </div>
+      </template>
+      <template #operation="{ scope }">
+        <operation :row="scope" :has-push="false" />
+      </template>
+    </song-table>
   </el-drawer>
   <div class="bottom-controller-box" :class="{ show: songs.length > 0 }">
     <div class="song-info-box">
@@ -140,5 +182,19 @@ onMounted(() => {
 }
 .pointer {
   cursor: pointer;
+}
+
+.info-song {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+  }
+  .active {
+    color: var(--el-color-primary);
+  }
 }
 </style>

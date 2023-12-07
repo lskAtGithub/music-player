@@ -1,5 +1,6 @@
+import { CommonObject } from "./Index"
 // 歌曲详情
-export interface SongDetail {
+export interface SongDetail extends CommonObject {
   id: number
   time: number
   size: number

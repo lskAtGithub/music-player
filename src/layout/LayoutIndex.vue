@@ -12,8 +12,6 @@ import type { Ref } from 'vue'
 
 type ScrollParam = { scrollLeft: number; scrollTop: number }
 
-
-
 let currentScrollTop = 0
 
 const { songStore } = useStore()
@@ -23,7 +21,11 @@ let audioRef: Ref<HTMLAudioElement | null> = ref(null)
 let isShow = ref(false)
 
 const audioSrc = computed(() => {
-  return currentSong.value.url || ''
+  if (currentSong.value && currentSong.value.url) {
+    return currentSong.value.url
+  } else {
+    return ''
+  }
 })
 
 function onGoTop() {

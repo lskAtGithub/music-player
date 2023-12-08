@@ -7,6 +7,10 @@ import SongTable from '@/components/SongTable.vue'
 import SongListSkeleton from '@/components/skeleton/SongListSkeleton.vue'
 import useStore from '@/store'
 import Operation from '@/components/Operation.vue'
+import { storeToRefs } from 'pinia'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+import { unique } from '@/utils/tool'
 
 import type { SongDetail } from '@/types/Song'
 
@@ -18,7 +22,8 @@ const tabColumn = [
 ]
 
 const route = useRoute()
-const { playSong, addSongs, playStatus } = useStore().songStore
+const { songs, currentSong } = storeToRefs(useStore().songStore)
+const { playSong, addSongs, playStatus, replaceSongs } = useStore().songStore
 
 let loading = ref(true)
 
@@ -63,6 +68,25 @@ async function onDbClick(row: any) {
   playSong(song)
 }
 
+function onPlayAll() {
+  ElMessageBox.confirm('该操作会替换整个播放列表，是否继续?', '提示', {
+    confirmButtonText: '确 定',
+    cancelButtonText: '取 消',
+    type: 'info'
+  }).then(() => {
+    const songList = unique([...data.tracks])
+    replaceSongs(songList)
+    currentSong.value = songs.value[0]
+    playStatus()
+    playSong(currentSong.value)
+  })
+}
+
+function onAddSongS() {
+  const songList = unique([...songs.value, ...data.tracks])
+  replaceSongs(songList)
+}
+
 onMounted(() => {
   getDetail()
 })
@@ -85,8 +109,8 @@ onMounted(() => {
           <div class="desc">{{ data.description }}</div>
           <div>
             <el-button-group size="default">
-              <el-button type="primary" :icon="Play">播放全部</el-button>
-              <el-button type="primary" :icon="AddMusic" />
+              <el-button type="primary" :icon="Play" @click="onPlayAll">播放全部</el-button>
+              <el-button type="primary" :icon="AddMusic" @click="onAddSongS" />
             </el-button-group>
           </div>
         </div>

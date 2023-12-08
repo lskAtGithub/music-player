@@ -41,6 +41,7 @@ const useSongs = defineStore({
         this.audioRef.volume = 70 / 100
       }
 
+      // 事件监听
       this.audioRef.onerror = () => {
         if (this.currentSong.url) {
           this.playSong(this.currentSong)
@@ -49,8 +50,13 @@ const useSongs = defineStore({
       this.audioRef.onloadeddata = () => {
         this.isReady = true
       }
-      this.audioRef.ontimeupdate = (time) => {
-        this.currentTime = time.timeStamp
+      this.audioRef.ontimeupdate = () => {
+        this.currentTime = this.audioRef!.currentTime
+      }
+      this.audioRef.onended = () => {
+        if (this.currentSong.id !== this.songs[this.songs.length - 1].id) {
+          this.nextSong()
+        }
       }
     },
     /**
@@ -84,6 +90,19 @@ const useSongs = defineStore({
     replaceSongs(arr: SongDetail[]) {
       this.songs = arr
       localStorage.setItem('music-player-songs', JSON.stringify(this.songs))
+    },
+    /**
+     * 清空播放列表，停止播放
+     */
+    clearSongs() {
+      this.isReady = false
+      this.isPlay = false
+      this.currentTime = 0
+      this.pauseSong()
+      this.songs = []
+      this.currentSong = {} as SongDetail
+      localStorage.setItem('music-player-songs', JSON.stringify(this.songs))
+      localStorage.setItem('music-player-current-song', JSON.stringify(this.currentSong))
     },
     /**
      * 获取资源播放歌曲
@@ -137,6 +156,7 @@ const useSongs = defineStore({
       this.currentSong = this.songs[idx - 1]
       this.playStatus()
       this.playSong(this.currentSong)
+      localStorage.setItem('music-player-current-song', JSON.stringify(this.currentSong))
     },
     /**
      * 播放下一首
@@ -146,6 +166,7 @@ const useSongs = defineStore({
       this.currentSong = this.songs[idx + 1]
       this.playStatus()
       this.playSong(this.currentSong)
+      localStorage.setItem('music-player-current-song', JSON.stringify(this.currentSong))
     },
     /**
      * 调整音量

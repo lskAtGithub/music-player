@@ -15,7 +15,7 @@ type ScrollParam = { scrollLeft: number; scrollTop: number }
 let currentScrollTop = 0
 
 const { songStore } = useStore()
-const { currentSong } = storeToRefs(songStore)
+const { currentSong, songs } = storeToRefs(songStore)
 const { initSongs } = songStore
 let scrollbarRef = ref()
 let audioRef: Ref<HTMLAudioElement | null> = ref(null)
@@ -60,7 +60,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" :class="{ 'is-bottom': songs.length > 0 }">
     <div class="menu-box">
       <SideMenu />
     </div>
@@ -81,7 +81,9 @@ onMounted(() => {
   display: flex;
   height: 100vh;
   overflow-y: auto;
-  padding-bottom: 85px;
+  &.is-bottom {
+    padding-bottom: 85px;
+  }
   .menu-box {
     width: 215px;
   }

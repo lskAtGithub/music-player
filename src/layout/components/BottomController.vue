@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import useStore from '@/store'
 import { storeToRefs } from 'pinia'
 import { vLoading } from 'element-plus'
@@ -44,12 +44,13 @@ const {
   prevSong,
   nextSong,
   playSong,
-  playStatus
+  playStatus,
+  clearSongs
 } = useStore().songStore
 
 let drawerVisible = ref(false)
-let songProgress = ref(0)
 let volume = ref(70)
+let songProgress = ref(0)
 
 function isCurrentSong(index: number): boolean {
   let idx = null
@@ -93,11 +94,13 @@ function onChangePlayerTime(value: number) {
   setPlayerProgress(timestamp)
 }
 
+function onClearList() {
+  clearSongs()
+}
 const isPrev = computed(() => {
   if (songs.value.length <= 1) return false
   return currentSong.value.id === songs.value[0].id
 })
-
 const isNext = computed(() => {
   if (songs.value.length <= 1) return false
   return currentSong.value.id === songs.value[songs.value.length - 1].id
@@ -108,10 +111,19 @@ onMounted(() => {
     volume.value = Number(localStorage.getItem('music-player-volume'))
   }
 })
+watch(
+  () => currentTime.value,
+  () => {
+    songProgress.value = (currentTime.value * 1000) / currentSong.value.time * 100
+  }
+)
 </script>
 
 <template>
   <el-drawer size="40%" v-model="drawerVisible" title="播放列表" direction="rtl">
+    <div class="btn-box">
+      <el-button @click="onClearList">清空列表</el-button>
+    </div>
     <song-table :columns="columns" :data="songs" @row-dblclick="onDbClick">
       <template #info="{ scope, index }">
         <div class="info-song">
@@ -160,7 +172,7 @@ onMounted(() => {
         />
       </div>
       <div class="play-progress-box">
-        <span>{{ formatTimestamp(currentTime) }}</span>
+        <span>{{ formatTimestamp(currentTime * 1000) }}</span>
         <el-slider
           v-model="songProgress"
           small="small"
@@ -183,6 +195,10 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.btn-box {
+  display: flex;
+  justify-content: flex-end;
+}
 .bottom-controller-box {
   display: flex;
   align-items: center;
@@ -225,7 +241,7 @@ onMounted(() => {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 28px;
       flex-shrink: 0;
     }
     .play-progress-box {

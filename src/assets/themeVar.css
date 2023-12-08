@@ -24,7 +24,9 @@
   --progress-loading-bg: #cbd1d8;
   --progress-loading-bg-dark: #9aa0a7;
 
-  
+  /* 滚动条背景色 */
+  --scrollbar-bg-color: #dddee0;
+  --scrollbar-bg-color-dark: #3e3f41;
   /* element-plus */
   --el-menu-bg-color: var(--menu-bg-color);
 }
@@ -46,6 +48,8 @@
 
   /* font color */
   --font-color-level-3: #3c3c3c;
+  /* scrollbar */
+  --color-scrollbar-bg: var(--scrollbar-bg-color);
 }
 
 html.dark {
@@ -64,6 +68,9 @@ html.dark {
   /* progress color */
   --color-progress-base-bg: var(--progress-base-bg-dark);
   --color-progress-loading-bg: var(--progress-loading-bg-dark);
+
+  /* scrollbar */
+  --color-scrollbar-bg: var(--scrollbar-bg-color-dark);
 
   /* element-plus */
   --el-menu-bg-color: var(--menu-bg-color-dark);

@@ -18,3 +18,15 @@
   font-size: 14px;
   font-family: 'HYSongYunLangHeiW';
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-bg);
+  border-radius: 6px;
+}

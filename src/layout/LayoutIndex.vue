@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, provide, computed } from 'vue'
+import { ref, provide, computed, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import SideMenu from '@/layout/components/SideMenu.vue'
 import BottomController from '@/layout/components/BottomController.vue'
@@ -16,6 +16,7 @@ let currentScrollTop = 0
 
 const { songStore } = useStore()
 const { currentSong } = storeToRefs(songStore)
+const { initSongs } = songStore
 let scrollbarRef = ref()
 let audioRef: Ref<HTMLAudioElement | null> = ref(null)
 let isShow = ref(false)
@@ -53,6 +54,9 @@ function onScroll(e: ScrollParam) {
 }
 
 provide('audioRef', audioRef)
+onMounted(() => {
+  if (audioRef.value) initSongs(audioRef.value)
+})
 </script>
 
 <template>
@@ -77,6 +81,7 @@ provide('audioRef', audioRef)
   display: flex;
   height: 100vh;
   overflow-y: auto;
+  padding-bottom: 85px;
   .menu-box {
     width: 215px;
   }

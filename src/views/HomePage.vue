@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, inject } from 'vue'
+import { onMounted, ref } from 'vue'
 import { getPersonalized, getPersonalizedNewSong } from '@/api/list'
 import useStore from '@/store'
 import BaseChunk from '@/components/BaseChunk.vue'
@@ -13,9 +13,8 @@ import { useRouter } from 'vue-router'
 
 type Response = { code: number; result: Personalized[] }
 
-const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
 const router = useRouter()
-const { songStore } = useStore()
+const { addSongs, playStatus, playSong } = useStore().songStore
 let isLoading = ref(false)
 let songList: Ref<Personalized[]> = ref([])
 let newSongs: Ref<NewSongs[]> = ref([])
@@ -30,12 +29,9 @@ async function onPlaySong(item: NewSongs) {
     size: 0,
     url: ''
   }
-  songStore.addSongs(song, 0)
-  songStore.pauseSong()
-  audioRef.value.pause()
-  audioRef.value.currentTime = 0
-  await songStore.playSong(song)
-  audioRef.value.play()
+  addSongs(song, 0)
+  playStatus()
+  playSong(song)
 }
 
 function onToSongList(id: number) {

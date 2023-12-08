@@ -20,8 +20,12 @@ import Lessen from './lessen'
 import Expand from './expand'
 import AddMusic from './addMusic'
 import More from './more'
+import VolumeMute from './volumeMute'
+import Volume from './volume'
 
 export {
+  Volume,
+  VolumeMute,
   More,
   AddMusic,
   Full,

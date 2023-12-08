@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive, inject, type Ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import { getListDetail } from '@/api/list'
 import { useRoute } from 'vue-router'
 import { Play, AddMusic } from '@/iconPark'
 import SongTable from '@/components/SongTable.vue'
 import SongListSkeleton from '@/components/skeleton/SongListSkeleton.vue'
 import useStore from '@/store'
-import { ElMessage } from 'element-plus'
 import Operation from '@/components/Operation.vue'
 
 import type { SongDetail } from '@/types/Song'
-import { storeToRefs } from 'pinia'
 
 const tabColumn = [
   { label: '音乐标题', slotName: 'name' },
@@ -20,9 +18,7 @@ const tabColumn = [
 ]
 
 const route = useRoute()
-const { playSong, addSongs, pauseSong } = useStore().songStore
-const { currentSong } = storeToRefs(useStore().songStore)
-const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
+const { playSong, addSongs, playStatus } = useStore().songStore
 
 let loading = ref(true)
 
@@ -63,14 +59,8 @@ async function onDbClick(row: any) {
     url: ''
   }
   addSongs(song, 0)
-  await playSong(song)
-  if (currentSong.value.url) {
-    audioRef.value.play()
-  } else {
-    ElMessage.error('抱歉，暂无此音频的播放地址')
-    pauseSong()
-    audioRef.value.pause()
-  }
+  playStatus()
+  playSong(song)
 }
 
 onMounted(() => {

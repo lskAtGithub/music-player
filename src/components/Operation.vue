@@ -2,10 +2,10 @@
 import { More } from '@/iconPark'
 import { ElMessage } from 'element-plus'
 import useStore from '@/store'
-import { inject } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import type { SongDetail } from '@/types/Song'
-import type { PropType, Ref } from 'vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   row: {
@@ -18,8 +18,8 @@ const props = defineProps({
   }
 })
 
-const { addSongs, removeSong, playSong } = useStore().songStore
-const audioRef = inject('audioRef') as Ref<HTMLAudioElement>
+const { addSongs, removeSong, playSong, playStatus } = useStore().songStore
+const { currentSong } = storeToRefs(useStore().songStore)
 
 function copyText() {
   const clipboard = navigator.clipboard
@@ -42,8 +42,13 @@ function onRemove() {
 }
 
 async function onPlay() {
-  await playSong(props.row)
-  audioRef.value.play()
+  addSongs(props.row, 0)
+  playStatus()
+  playSong(props.row)
+}
+
+function isPlay() {
+  return !(props.row.id === currentSong.value.id)
 }
 </script>
 
@@ -52,9 +57,11 @@ async function onPlay() {
     <span style="cursor: pointer"> <More /> </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="onPlay">播放</el-dropdown-item>
-        <el-dropdown-item @click="onNextPlay">下一首播放</el-dropdown-item>
-        <el-dropdown-item v-if="props.hasPush" @click="onPushList">添加到播放列表</el-dropdown-item>
+        <el-dropdown-item v-if="isPlay()" @click="onPlay">播放</el-dropdown-item>
+        <el-dropdown-item v-if="isPlay()" @click="onNextPlay">下一首播放</el-dropdown-item>
+        <el-dropdown-item v-if="props.hasPush" @click="onPushList">
+          添加到播放列表
+        </el-dropdown-item>
         <el-dropdown-item @click="copyText">复制歌名</el-dropdown-item>
         <el-dropdown-item v-if="!props.hasPush" @click="onRemove">从列表删除</el-dropdown-item>
       </el-dropdown-menu>

@@ -49,6 +49,7 @@ const {
 } = useStore().songStore
 
 let drawerVisible = ref(false)
+let playerVisible = ref(false)
 let volume = ref(70)
 let songProgress = ref(0)
 
@@ -63,23 +64,19 @@ function isCurrentSong(index: number): boolean {
   }
   return idx === index
 }
-
 function onPopupMusicList() {
   drawerVisible.value = true
 }
-
 async function onDbClick(row: SongDetail) {
   playStatus()
   playSong(row)
 }
-
 function onChangeVolume() {
   if (isMute.value) {
     setMute(false)
   }
   setVolume(volume.value)
 }
-
 function calcTime(value: number) {
   if (currentSong.value.time) {
     let timestamp = currentSong.value.time * (value / 100)
@@ -88,16 +85,13 @@ function calcTime(value: number) {
     return '00:00'
   }
 }
-
 function onChangePlayerTime(value: number) {
   let timestamp = (currentSong.value.time * (value / 100)) / 1000
   setPlayerProgress(timestamp)
 }
-
 function onClearList() {
   clearSongs()
 }
-
 function watchKeyDown() {
   window.onkeydown = (event: KeyboardEvent) => {
     if (!currentSong.value.id) {
@@ -132,6 +126,10 @@ function watchKeyDown() {
         break
     }
   }
+}
+
+function onOpenPlayer() {
+  playerVisible.value = true
 }
 
 const isPrev = computed(() => {
@@ -175,7 +173,9 @@ watch(
   </el-drawer>
   <div class="bottom-controller-box" :class="{ show: songs.length > 0 }">
     <div class="song-info-box">
-      <base-image :src="currentSong.picUrl" :style="imageStyle"></base-image>
+      <div @click="onOpenPlayer">
+        <base-image :src="currentSong.picUrl" :style="imageStyle"></base-image>
+      </div>
       <div class="song-singer">
         <div class="song-name">{{ currentSong.name }}</div>
         <div>{{ currentSong.singer }}</div>

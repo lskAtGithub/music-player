@@ -15,13 +15,13 @@ export const routes = [
     children: [
       {
         path: '/',
-        meta: { tabName: '每日推荐' },
+        meta: { tabName: '热门' },
         name: 'HomePage',
         component: HomePage
       },
       {
         path: '/hot',
-        meta: { tabName: '热门' },
+        meta: { tabName: '每日推荐' },
         name: 'Hot',
         component: Hot
       },

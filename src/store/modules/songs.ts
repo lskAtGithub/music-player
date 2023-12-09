@@ -51,7 +51,7 @@ const useSongs = defineStore({
         this.isReady = true
       }
       this.audioRef.ontimeupdate = () => {
-        if(!this.isReady) this.isReady = true
+        if (!this.isReady) this.isReady = true
         this.currentTime = this.audioRef!.currentTime
       }
       this.audioRef.onended = () => {

@@ -19,7 +19,7 @@ const props = defineProps({
 })
 
 const { addSongs, removeSong, playSong, playStatus } = useStore().songStore
-const { currentSong } = storeToRefs(useStore().songStore)
+const { currentSong, songs } = storeToRefs(useStore().songStore)
 
 function copyText() {
   const clipboard = navigator.clipboard
@@ -35,14 +35,16 @@ function onPushList() {
   addSongs(props.row)
 }
 function onNextPlay() {
-  addSongs(props.row, 1)
+  const idx = songs.value.findIndex((item) => item.id === currentSong.value.id)
+  addSongs(props.row, idx + 1)
 }
 function onRemove() {
   removeSong(props.row)
 }
 
 async function onPlay() {
-  addSongs(props.row, 0)
+  const idx = songs.value.findIndex((item) => item.id === currentSong.value.id)
+  addSongs(props.row, idx + 1 || 0)
   playStatus()
   playSong(props.row)
 }

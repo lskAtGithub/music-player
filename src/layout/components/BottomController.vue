@@ -97,6 +97,43 @@ function onChangePlayerTime(value: number) {
 function onClearList() {
   clearSongs()
 }
+
+function watchKeyDown() {
+  window.onkeydown = (event: KeyboardEvent) => {
+    if (!currentSong.value.id) {
+      return
+    }
+    switch (event.code) {
+      case 'Space':
+        if (isPlay.value) {
+          pauseSong()
+        } else {
+          playStatus()
+          playSong(currentSong.value)
+        }
+        break
+      case 'PageUp':
+        if (currentSong.value.id !== songs.value[0].id) {
+          prevSong()
+        }
+        break
+      case 'PageDown':
+        if (currentSong.value.id !== songs.value[songs.value.length - 1].id) {
+          nextSong()
+        }
+        break
+      case 'ArrowUp':
+        volume.value += 5
+        setVolume(volume.value + 5)
+        break
+      case 'ArrowDown':
+        volume.value -= 5
+        setVolume(volume.value - 5 || 0)
+        break
+    }
+  }
+}
+
 const isPrev = computed(() => {
   if (songs.value.length <= 1) return false
   return currentSong.value.id === songs.value[0].id
@@ -105,16 +142,16 @@ const isNext = computed(() => {
   if (songs.value.length <= 1) return false
   return currentSong.value.id === songs.value[songs.value.length - 1].id
 })
-
 onMounted(() => {
   if (localStorage.getItem('music-player-volume')) {
     volume.value = Number(localStorage.getItem('music-player-volume'))
   }
+  watchKeyDown()
 })
 watch(
   () => currentTime.value,
   () => {
-    songProgress.value = (currentTime.value * 1000) / currentSong.value.time * 100
+    songProgress.value = ((currentTime.value * 1000) / currentSong.value.time) * 100
   }
 )
 </script>
@@ -156,7 +193,7 @@ watch(
           "
           :class="{ disabled: isPrev }"
         />
-        <div v-loading="!isReady">
+        <div v-loading="!isReady" element-loading-background="transparent">
           <Play v-show="!isPlay" class="pointer" @click="keepPlay" />
           <Pause v-show="isPlay" class="pointer" @click="pauseSong" />
         </div>

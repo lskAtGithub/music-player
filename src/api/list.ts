@@ -1,24 +1,6 @@
 import request from '@/utils/request'
 
 /**
- * @description: 获取热门歌手
- */
-export function getHotArtists() {
-  return request({
-    url: '/top/artists',
-    method: 'get'
-  })
-}
-
-export function testApi(params: any) {
-  return request({
-    url: '/toplist',
-    method: 'get',
-    params
-  })
-}
-
-/**
  * @description: 获取所有榜单信息
  */
 export function getAllList() {
@@ -66,6 +48,17 @@ export function getPersonalizedNewSong(params: any) {
 export function getSongUrl(params: { id: number | string }) {
   return request({
     url: '/song/url',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * @description 根据关键字获取搜索结果
+ */
+export function getSearch(params: { keywords: string }) {
+  return request({
+    url: '/cloudsearch',
     method: 'get',
     params
   })

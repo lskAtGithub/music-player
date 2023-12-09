@@ -35,6 +35,16 @@ function onCheckTheme() {
       break
   }
 }
+async function onSearch() {
+  if (keyword.value !== '') {
+    router.push({
+      path: '/result',
+      query: {
+        keywords: keyword.value
+      }
+    })
+  }
+}
 </script>
 
 <template>
@@ -51,6 +61,7 @@ function onCheckTheme() {
         placeholder="搜索歌曲"
         clearable
         :prefix-icon="Search"
+        @keyup.enter="onSearch"
       />
       <fullscreen />
       <el-button :icon="useThemeMap[useTheme]" circle @click="onCheckTheme" />
@@ -81,7 +92,7 @@ function onCheckTheme() {
     gap: 8px;
   }
 }
-:deep(.el-button+.el-button) {
+:deep(.el-button + .el-button) {
   margin-left: 0;
 }
 </style>

@@ -6,6 +6,7 @@ import Hot from '@/views/Hot.vue'
 import Setting from '@/views/Setting.vue'
 import Explore from '@/views/Explore.vue'
 import SongList from '@/views/SongList.vue'
+import Result from '@/views/Result.vue'
 
 const { routeStore } = useStore()
 
@@ -41,6 +42,11 @@ export const routes = [
         path: '/songList',
         name: 'SongList',
         component: SongList
+      },
+      {
+        path: '/result',
+        name: 'Result',
+        component: Result
       }
     ]
   }

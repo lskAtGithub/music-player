@@ -56,6 +56,8 @@ const useSongs = defineStore({
       this.audioRef.onended = () => {
         if (this.currentSong.id !== this.songs[this.songs.length - 1].id) {
           this.nextSong()
+        } else {
+          this.isPlay = false
         }
       }
     },

@@ -50,6 +50,8 @@
   --font-color-level-3: #3c3c3c;
   /* scrollbar */
   --color-scrollbar-bg: var(--scrollbar-bg-color);
+  /* element-plus */
+  --el-mask-color: var(--color-white);
 }
 
 html.dark {
@@ -74,4 +76,5 @@ html.dark {
 
   /* element-plus */
   --el-menu-bg-color: var(--menu-bg-color-dark);
+  --el-mask-color: var(--color-black);
 }
